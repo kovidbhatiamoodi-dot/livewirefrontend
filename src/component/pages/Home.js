@@ -38,13 +38,9 @@ import Delhi from "../../assets/delhi.svg";
 import Cross from "../../assets/Cross.png";
 
 import One from "../../assets/partners/one.svg";
-import Two from "../../assets/partners/two.svg";
-import Three from "../../assets/partners/three.svg";
 import Four from "../../assets/partners/four.svg";
 
-import SomeGood from "../../assets/partners/some_good.png";
 import Bluethree from "../../assets/partners/Bluetree.png";
-import Merchant from "../../assets/partners/merchant.png";
 import KATHA from "../../assets/partners/KATHA.jpg";
 import SBRS from "../../assets/partners/SBRS.jpg";
 import BAY from "../../assets/partners/BAY.jpg";
@@ -535,16 +531,8 @@ const Home = () => {
           <p className="page_six_head">PARTNERS</p>
           <div className="partners_main">
             <div className="partners_details">
-              <p className="partners_heading">Promotion Partner</p>
-              <img src={SomeGood} alt={Two} className="partner-img" />
-            </div>
-            <div className="partners_details">
               <p className="partners_heading">Gig Partner</p>
               <img src={Bluethree} alt={One} className="partner-img" />
-            </div>
-            <div className="partners_details">
-              <p className="partners_heading">Record Label Partner</p>
-              <img src={Merchant} alt={Three} className="partner-img" />
             </div>
             <div className="partners_details">
               <p className="partners_heading">Tour Partner</p>
