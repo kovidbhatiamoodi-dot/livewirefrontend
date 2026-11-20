@@ -57,7 +57,7 @@ const SCHEDULE = [
   { city: "PUNE", date: "18th OCTOBER", mode: "OFFLINE", img: Pune, status: "COMPLETED" },
   { city: "AHMEDABAD", date: "25th OCTOBER", mode: "OFFLINE", img: Bangalore, status: "COMPLETED" },
   { city: "MUMBAI", date: "5th DECEMBER", mode: "OFFLINE", img: Mumbai, round: "mumbai_offline" },
-  { city: "GOA", date: "6th DECEMBER", mode: "OFFLINE", img: Bangalore, status: "DETAILS SOON" },
+  { city: "GOA", date: "6th DECEMBER", mode: "OFFLINE", img: Bangalore, round: "goa_offline" },
   { city: "DELHI", mode: "ONLINE", img: Delhi, round: "online" },
   { city: "BANGALORE", mode: "ONLINE", img: Bangalore, round: "online" },
   { city: "SHILLONG", mode: "ONLINE", img: Shilong, round: "online" },

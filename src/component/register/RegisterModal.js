@@ -35,8 +35,10 @@ const EVENTS = {
   },
 };
 
+// Offline rounds stay open for registration till the end of their own day.
 const ROUNDS = [
   { key: "mumbai_offline", city: "Mumbai", when: "5th December", mode: "Offline" },
+  { key: "goa_offline", city: "Goa", when: "6th December", mode: "Offline" },
   { key: "online", city: "Online", when: "Till 5th December", mode: "Video submission" },
 ];
 
@@ -110,6 +112,7 @@ export default function RegisterModal({ event, open, initialRound = "online", on
   if (!open || !ev) return null;
 
   const isOnline = round === "online";
+  const roundMeta = ROUNDS.find((r) => r.key === round) || ROUNDS[ROUNDS.length - 1];
   const closed = roundInfo?.[round] && roundInfo[round].open === false;
 
   const set = (name) => (e) => {
@@ -234,8 +237,8 @@ export default function RegisterModal({ event, open, initialRound = "online", on
 
               <p className="rm-info">
                 {isOnline
-                  ? `Upload your performance video to Google Drive, set sharing to "Anyone with the link" and paste the link below. Maximum video length: ${ev.videoLimit} minutes.`
-                  : "Perform live at the Mumbai elimination round on 5th December. Venue and reporting time will be shared on your phone and email."}
+                  ? `Upload your performance video to Google Drive, set sharing to "Anyone with the link" and paste the link below. Maximum video length: ${ev.videoLimit} minutes. Submissions close at the end of 5th December.`
+                  : `Perform live at the ${roundMeta.city} elimination round on ${roundMeta.when}. Registrations stay open till the end of ${roundMeta.when}. Venue and reporting time will be shared on your phone and email.`}
               </p>
 
               {closed ? (
