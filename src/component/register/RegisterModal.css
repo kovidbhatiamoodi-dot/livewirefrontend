@@ -1,0 +1,313 @@
+/* Shared by the Livewire and Soulstrings sites - keep in sync. */
+.rm-overlay {
+  --rm-bg: #0f0922;
+  --rm-panel: #17102f;
+  --rm-text: #ffffff;
+  --rm-muted: rgba(255, 255, 255, 0.65);
+  --rm-accent: #7630ff;
+  --rm-accent-text: #ffffff;
+  --rm-border: rgba(255, 255, 255, 0.18);
+  --rm-input: #0b0719;
+  --rm-error: #ff6b81;
+  --rm-font-head: "Aclonica", "acquire", sans-serif;
+  --rm-font-body: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  font-family: var(--rm-font-body);
+}
+
+.rm-theme-soulstrings {
+  --rm-bg: #faf5e1;
+  --rm-panel: #f4eade;
+  --rm-text: #4b3f33;
+  --rm-muted: #7a6a5c;
+  --rm-accent: #077167;
+  --rm-accent-text: #faf5e1;
+  --rm-border: #c9b9a3;
+  --rm-input: #fffdf6;
+  --rm-error: #b3261e;
+  --rm-font-head: "Quattrocento", Georgia, serif;
+  --rm-font-body: "Quattrocento Sans", system-ui, "Segoe UI", Arial, sans-serif;
+  background: rgba(40, 30, 20, 0.6);
+}
+
+.rm-overlay *,
+.rm-overlay *::before,
+.rm-overlay *::after {
+  box-sizing: border-box;
+}
+
+.rm-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: auto 0;
+  background: var(--rm-bg);
+  color: var(--rm-text);
+  border: 1px solid var(--rm-border);
+  border-radius: 14px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  outline: none;
+  text-align: left;
+}
+
+.rm-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--rm-text);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.rm-close:hover {
+  background: var(--rm-panel);
+}
+
+.rm-kicker {
+  margin: 0;
+  color: var(--rm-muted);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rm-title {
+  margin: 4px 40px 18px 0;
+  font-family: var(--rm-font-head);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--rm-accent);
+  line-height: 1.2;
+}
+.rm-theme-livewire .rm-title {
+  color: #9b6bff;
+}
+
+.rm-rounds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.rm-round {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--rm-border);
+  background: var(--rm-panel);
+  color: var(--rm-text);
+  cursor: pointer;
+  font: inherit;
+}
+.rm-round-active {
+  border-color: var(--rm-accent);
+  background: var(--rm-accent);
+  color: var(--rm-accent-text);
+}
+.rm-round-title {
+  font-family: var(--rm-font-head);
+  font-size: 16px;
+  font-weight: 700;
+}
+.rm-round-tag {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.rm-note {
+  background: var(--rm-panel);
+  border-left: 3px solid var(--rm-accent);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.rm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.rm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.rm-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+.rm-req {
+  color: var(--rm-error);
+}
+.rm-field input,
+.rm-field textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 16px; /* stops iOS zoom on focus */
+  color: var(--rm-text);
+  background: var(--rm-input);
+  border: 1px solid var(--rm-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+.rm-field input:focus,
+.rm-field textarea:focus {
+  outline: 2px solid var(--rm-accent);
+  outline-offset: 0;
+  border-color: var(--rm-accent);
+}
+.rm-has-error input,
+.rm-has-error textarea {
+  border-color: var(--rm-error);
+}
+.rm-hint {
+  font-size: 12px;
+  color: var(--rm-muted);
+}
+.rm-error {
+  font-size: 12px;
+  color: var(--rm-error);
+}
+
+.rm-rules {
+  margin: 4px 0 12px;
+  font-size: 14px;
+}
+.rm-rules summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--rm-accent);
+}
+.rm-theme-livewire .rm-rules summary {
+  color: #9b6bff;
+}
+.rm-rules ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+
+.rm-check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+.rm-check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--rm-accent);
+  flex-shrink: 0;
+}
+.rm-check.rm-has-error span {
+  color: var(--rm-error);
+}
+
+.rm-message,
+.rm-closed {
+  color: var(--rm-error);
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+.rm-closed {
+  font-size: 16px;
+  padding: 12px 0;
+}
+
+.rm-submit {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--rm-accent);
+  color: var(--rm-accent-text);
+  font-family: var(--rm-font-head);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.rm-submit:hover:not(:disabled) {
+  filter: brightness(1.12);
+}
+.rm-submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.rm-success {
+  text-align: center;
+  padding: 10px 0 4px;
+}
+.rm-success p {
+  margin: 0 0 8px;
+}
+.rm-success-head {
+  font-family: var(--rm-font-head);
+  font-size: 22px;
+  color: var(--rm-accent);
+}
+.rm-theme-livewire .rm-success-head {
+  color: #9b6bff;
+}
+.rm-regid-label {
+  margin-top: 16px !important;
+  color: var(--rm-muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.rm-regid {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  user-select: all;
+}
+.rm-small {
+  font-size: 13px;
+  color: var(--rm-muted);
+  margin-bottom: 18px !important;
+}
+
+@media (max-width: 600px) {
+  .rm-overlay {
+    padding: 12px;
+  }
+  .rm-dialog {
+    padding: 22px 16px 18px;
+  }
+  .rm-title {
+    font-size: 21px;
+  }
+  .rm-rounds,
+  .rm-grid {
+    grid-template-columns: 1fr;
+  }
+}

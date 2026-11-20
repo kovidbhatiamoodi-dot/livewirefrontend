@@ -1,0 +1,13 @@
+<svg width="13" height="1026" viewBox="0 0 13 1026" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="6.5" cy="6.5" r="6" transform="matrix(1 0 0 -1 0 98)" stroke="white"/>
+<circle cx="6.5" cy="6.5" r="6" transform="matrix(1 0 0 -1 0 294)" stroke="white"/>
+<circle cx="6.5" cy="6.5" r="6" transform="matrix(1 0 0 -1 0 490)" stroke="white"/>
+<circle cx="6.5" cy="6.5" r="6" transform="matrix(1 0 0 -1 0 686)" stroke="white"/>
+<circle cx="6.5" cy="6.5" r="6" transform="matrix(1 0 0 -1 0 882)" stroke="white"/>
+<line x1="6.5" y1="0.5" x2="6.5" y2="85.5" stroke="white" stroke-linecap="round"/>
+<line x1="6.5" y1="881.5" x2="6.5" y2="1025.5" stroke="white" stroke-linecap="round"/>
+<line x1="6.5" y1="97.5" x2="6.50001" y2="281.5" stroke="white" stroke-linecap="round"/>
+<line x1="6.5" y1="293.5" x2="6.50001" y2="477.5" stroke="white" stroke-linecap="round"/>
+<line x1="6.5" y1="489.5" x2="6.50001" y2="673.5" stroke="white" stroke-linecap="round"/>
+<line x1="6.5" y1="685.5" x2="6.50001" y2="869.5" stroke="white" stroke-linecap="round"/>
+</svg>
