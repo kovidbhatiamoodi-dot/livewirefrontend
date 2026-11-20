@@ -570,10 +570,10 @@ const Home = () => {
           <p className="foot-head">CONTACT</p>
           <div className="foot-cont">
             <p>
-              Yog Sonawane: <a href="tel:+917977058957">+91 79770 58957</a>
+              Nevedhya Jain: <a href="tel:+916376977714">+91 63769 77714</a>
             </p>
             <p>
-              Ranbir Sinha <a href="tel:+919137622913">+91 91376 22913</a>
+              Prisha Agrawal: <a href="tel:+918287013101">+91 82870 13101</a>
             </p>
           </div>
         </div>
@@ -581,11 +581,9 @@ const Home = () => {
         <div className="foot-comp" id="34">
           <h3 className="foot-head">E-MAIL</h3>
           <p className="foot-cont">
-            <a href="mailto:yog@moodi.org">
-              yog@moodi.org
-            </a>
+            <a href="mailto:nevedhya@moodi.org">nevedhya@moodi.org</a>
             <br />
-            <a href="mailto:ranbir@moodi.org">ranbir@moodi.org</a>
+            <a href="mailto:prishaagrawal@moodi.org">prishaagrawal@moodi.org</a>
           </p>
         </div>
 
