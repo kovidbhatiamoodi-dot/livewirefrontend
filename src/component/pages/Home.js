@@ -35,6 +35,7 @@ import Mumbai from "../../assets/mumbai.svg";
 import Pune from "../../assets/pune.svg";
 import Bangalore from "../../assets/banglore.svg";
 import Delhi from "../../assets/delhi.svg";
+import Cross from "../../assets/Cross.png";
 
 import One from "../../assets/partners/one.svg";
 import Two from "../../assets/partners/two.svg";
@@ -641,6 +642,7 @@ const Home = () => {
 
       <RegisterModal
         event="livewire"
+        closeIcon={Cross}
         open={registerRound !== null}
         initialRound={registerRound || "online"}
         onClose={() => setRegisterRound(null)}

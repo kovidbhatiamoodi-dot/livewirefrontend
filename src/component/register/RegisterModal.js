@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./RegisterModal.css";
 
-// Same file is used by the Livewire and Soulstrings sites - keep them in sync.
+// Same JS is used by the Livewire and Soulstrings sites (keep in sync);
+// each site has its own RegisterModal.css so the popup looks like that site.
 // Production serves the API on the site's own domain under /api (REACT_APP_API_URL=/).
 export const API_URL = (process.env.REACT_APP_API_URL ?? "/").replace(/\/$/, "");
 
 const EVENTS = {
   livewire: {
-    title: "LIVEWIRE",
+    heading: "REGISTER",
+    sub: "Livewire 2026",
     band: true,
     videoLimit: 10,
     rules: [
@@ -18,7 +20,8 @@ const EVENTS = {
     ],
   },
   soulstrings: {
-    title: "SOULSTRINGS",
+    heading: "Register Now",
+    sub: "Soulstrings 2026",
     band: false,
     videoLimit: 5,
     rules: [
@@ -33,16 +36,8 @@ const EVENTS = {
 };
 
 const ROUNDS = [
-  {
-    key: "mumbai_offline",
-    title: "Mumbai Elimination",
-    tag: "Offline · 5th December",
-  },
-  {
-    key: "online",
-    title: "Online Elimination",
-    tag: "Submissions till 5th December",
-  },
+  { key: "mumbai_offline", city: "Mumbai", when: "5th December", mode: "Offline" },
+  { key: "online", city: "Online", when: "Till 5th December", mode: "Video submission" },
 ];
 
 const EMPTY = {
@@ -63,11 +58,11 @@ const EMPTY = {
   rulesAccepted: false,
 };
 
-const Field = ({ label, name, error, required, hint, children }) => (
-  <label className={`rm-field ${error ? "rm-has-error" : ""}`} htmlFor={`rm-${name}`}>
+const Field = ({ label, name, error, required, hint, wide, children }) => (
+  <label className={`rm-field${wide ? " rm-wide" : ""}${error ? " rm-has-error" : ""}`} htmlFor={`rm-${name}`}>
     <span className="rm-label">
       {label}
-      {required && <span className="rm-req"> *</span>}
+      {required && <span className="rm-req">*</span>}
     </span>
     {children}
     {hint && !error && <span className="rm-hint">{hint}</span>}
@@ -75,7 +70,7 @@ const Field = ({ label, name, error, required, hint, children }) => (
   </label>
 );
 
-export default function RegisterModal({ event, open, initialRound = "online", onClose }) {
+export default function RegisterModal({ event, open, initialRound = "online", onClose, closeIcon }) {
   const ev = EVENTS[event];
   const [round, setRound] = useState(initialRound);
   const [form, setForm] = useState(EMPTY);
@@ -149,7 +144,7 @@ export default function RegisterModal({ event, open, initialRound = "online", on
     const er = checkLocally();
     setErrors(er);
     if (Object.keys(er).length) {
-      setMessage("Please fix the highlighted fields.");
+      setMessage("Please fill the highlighted fields.");
       return;
     }
     setStatus("sending");
@@ -188,169 +183,161 @@ export default function RegisterModal({ event, open, initialRound = "online", on
   };
 
   return (
-    <div className={`rm-overlay rm-theme-${event}`} role="presentation">
-      <div
-        className="rm-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="rm-title"
-        tabIndex={-1}
-        ref={dialogRef}
-      >
-        <button type="button" className="rm-close" onClick={close} aria-label="Close">
-          ×
-        </button>
+    <div className={`rm-overlay rm-${event}`} role="presentation">
+      <div className="rm-dialog" role="dialog" aria-modal="true" aria-labelledby="rm-title" tabIndex={-1} ref={dialogRef}>
+        <div className="rm-head">
+          <h2 id="rm-title" className="rm-title">
+            {ev.heading}
+          </h2>
+          <p className="rm-sub">{ev.sub}</p>
+          <button type="button" className="rm-close" onClick={close} aria-label="Close">
+            {closeIcon ? <img src={closeIcon} alt="" /> : "×"}
+          </button>
+        </div>
 
-        <p className="rm-kicker">Mood Indigo 2026</p>
-        <h2 id="rm-title" className="rm-title">
-          Register for {ev.title}
-        </h2>
-
-        {status === "done" && result ? (
-          <div className="rm-success">
-            <p className="rm-success-head">You're registered!</p>
-            <p>{result.round}</p>
-            <p className="rm-regid-label">Your registration ID</p>
-            <p className="rm-regid">{result.regId}</p>
-            <p className="rm-small">
-              Save this ID. The team will contact you on the phone number and email you entered.
-            </p>
-            <button type="button" className="rm-submit" onClick={close}>
-              Done
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={submit} noValidate>
-            <div className="rm-rounds" role="tablist" aria-label="Choose round">
-              {ROUNDS.map((r) => (
-                <button
-                  key={r.key}
-                  type="button"
-                  role="tab"
-                  aria-selected={round === r.key}
-                  className={`rm-round ${round === r.key ? "rm-round-active" : ""}`}
-                  onClick={() => {
-                    setRound(r.key);
-                    setMessage("");
-                  }}
-                >
-                  <span className="rm-round-title">{r.title}</span>
-                  <span className="rm-round-tag">{r.tag}</span>
-                </button>
-              ))}
+        <div className="rm-body">
+          {status === "done" && result ? (
+            <div className="rm-success">
+              <p className="rm-success-head">Registration complete</p>
+              <p className="rm-success-round">{result.round}</p>
+              <p className="rm-regid-label">Registration ID</p>
+              <p className="rm-regid">{result.regId}</p>
+              <p className="rm-small">
+                Keep this ID with you. We'll reach out on the phone number and email you gave.
+              </p>
+              <button type="button" className="rm-submit" onClick={close}>
+                Done
+              </button>
             </div>
+          ) : (
+            <form onSubmit={submit} noValidate>
+              <p className="rm-step">Choose your round</p>
+              <div className="rm-rounds" role="tablist" aria-label="Choose round">
+                {ROUNDS.map((r) => (
+                  <button
+                    key={r.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={round === r.key}
+                    className={`rm-round${round === r.key ? " rm-round-active" : ""}`}
+                    onClick={() => {
+                      setRound(r.key);
+                      setMessage("");
+                    }}
+                  >
+                    <span className="rm-round-city">{r.city}</span>
+                    <span className="rm-round-when">{r.when}</span>
+                    <span className="rm-round-mode">{r.mode}</span>
+                  </button>
+                ))}
+              </div>
 
-            <div className="rm-note">
-              {isOnline ? (
-                <>
-                  Upload your performance video to <b>Google Drive</b>, set sharing to{" "}
-                  <b>"Anyone with the link"</b> and paste the link below. Video length: <b>max {ev.videoLimit} minutes</b>.
-                  Submissions close on <b>5th December</b>.
-                </>
+              <p className="rm-info">
+                {isOnline
+                  ? `Upload your performance video to Google Drive, set sharing to "Anyone with the link" and paste the link below. Maximum video length: ${ev.videoLimit} minutes.`
+                  : "Perform live at the Mumbai elimination round on 5th December. Venue and reporting time will be shared on your phone and email."}
+              </p>
+
+              {closed ? (
+                <p className="rm-closed">Registrations for this round are closed.</p>
               ) : (
                 <>
-                  Register to perform live at the <b>Mumbai elimination round</b> on <b>5th December</b>. Venue and
-                  reporting time will be shared on your phone / email.
-                </>
-              )}
-            </div>
-
-            {closed ? (
-              <p className="rm-closed">Registrations for this round are closed.</p>
-            ) : (
-              <>
-                <div className="rm-grid">
-                  <Field label={ev.band ? "Band name" : "Artist / stage name"} name="actName" error={errors.actName} required>
-                    <input id="rm-actName" value={form.actName} onChange={set("actName")} maxLength={120} />
-                  </Field>
-                  <Field label={ev.band ? "Band leader's name" : "Full name"} name="contactName" error={errors.contactName} required>
-                    <input id="rm-contactName" value={form.contactName} onChange={set("contactName")} maxLength={120} autoComplete="name" />
-                  </Field>
-                  <Field label="Email" name="email" error={errors.email} required>
-                    <input id="rm-email" type="email" value={form.email} onChange={set("email")} maxLength={160} autoComplete="email" />
-                  </Field>
-                  <Field label="Phone (WhatsApp)" name="phone" error={errors.phone} required>
-                    <input id="rm-phone" type="tel" inputMode="numeric" value={form.phone} onChange={set("phone")} maxLength={16} autoComplete="tel" placeholder="10-digit mobile" />
-                  </Field>
-                  <Field label="Backup phone" name="backupPhone" error={errors.backupPhone}>
-                    <input id="rm-backupPhone" type="tel" inputMode="numeric" value={form.backupPhone} onChange={set("backupPhone")} maxLength={16} />
-                  </Field>
-                  <Field label="City" name="city" error={errors.city} required>
-                    <input id="rm-city" value={form.city} onChange={set("city")} maxLength={80} autoComplete="address-level2" />
-                  </Field>
-                  <Field label="Genre" name="genre" error={errors.genre}>
-                    <input id="rm-genre" value={form.genre} onChange={set("genre")} maxLength={80} />
-                  </Field>
-                  {ev.band ? (
-                    <Field label="Number of members" name="memberCount" error={errors.memberCount} required>
-                      <input id="rm-memberCount" type="number" min={2} max={15} value={form.memberCount} onChange={set("memberCount")} />
-                    </Field>
-                  ) : (
-                    <Field label="Instrument(s) you play" name="instruments" error={errors.instruments}>
-                      <input id="rm-instruments" value={form.instruments} onChange={set("instruments")} maxLength={200} placeholder="e.g. Guitar, Vocals" />
-                    </Field>
-                  )}
-                </div>
-
-                {ev.band && (
-                  <Field label="Member names & instruments" name="memberNames" error={errors.memberNames}>
-                    <textarea id="rm-memberNames" rows={2} value={form.memberNames} onChange={set("memberNames")} maxLength={1000} />
-                  </Field>
-                )}
-
-                {isOnline && (
+                  <p className="rm-step">{ev.band ? "Band details" : "Your details"}</p>
                   <div className="rm-grid">
-                    <Field label="Song title" name="songTitle" error={errors.songTitle}>
-                      <input id="rm-songTitle" value={form.songTitle} onChange={set("songTitle")} maxLength={160} />
+                    <Field label={ev.band ? "Band name" : "Artist / stage name"} name="actName" error={errors.actName} required>
+                      <input id="rm-actName" value={form.actName} onChange={set("actName")} maxLength={120} />
                     </Field>
+                    <Field label={ev.band ? "Leader name" : "Full name"} name="contactName" error={errors.contactName} required>
+                      <input id="rm-contactName" value={form.contactName} onChange={set("contactName")} maxLength={120} autoComplete="name" />
+                    </Field>
+                    <Field label="Email" name="email" error={errors.email} required>
+                      <input id="rm-email" type="email" value={form.email} onChange={set("email")} maxLength={160} autoComplete="email" />
+                    </Field>
+                    <Field label="Phone (WhatsApp)" name="phone" error={errors.phone} required>
+                      <input id="rm-phone" type="tel" inputMode="numeric" value={form.phone} onChange={set("phone")} maxLength={16} autoComplete="tel" />
+                    </Field>
+                    <Field label="Backup contact" name="backupPhone" error={errors.backupPhone}>
+                      <input id="rm-backupPhone" type="tel" inputMode="numeric" value={form.backupPhone} onChange={set("backupPhone")} maxLength={16} />
+                    </Field>
+                    <Field label="City" name="city" error={errors.city} required>
+                      <input id="rm-city" value={form.city} onChange={set("city")} maxLength={80} autoComplete="address-level2" />
+                    </Field>
+                    <Field label="Genre" name="genre" error={errors.genre}>
+                      <input id="rm-genre" value={form.genre} onChange={set("genre")} maxLength={80} />
+                    </Field>
+                    {ev.band ? (
+                      <Field label="No. of members" name="memberCount" error={errors.memberCount} required>
+                        <input id="rm-memberCount" type="number" min={2} max={15} value={form.memberCount} onChange={set("memberCount")} />
+                      </Field>
+                    ) : (
+                      <Field label="Instrument(s)" name="instruments" error={errors.instruments}>
+                        <input id="rm-instruments" value={form.instruments} onChange={set("instruments")} maxLength={200} />
+                      </Field>
+                    )}
+                    {ev.band && (
+                      <Field label="Members & instruments" name="memberNames" error={errors.memberNames} wide>
+                        <textarea id="rm-memberNames" rows={2} value={form.memberNames} onChange={set("memberNames")} maxLength={1000} />
+                      </Field>
+                    )}
                     <Field
-                      label={`Video link (Google Drive, max ${ev.videoLimit} min)`}
-                      name="submissionLink"
-                      error={errors.submissionLink}
-                      required
+                      label="Links to your original music"
+                      name="musicLinks"
+                      error={errors.musicLinks}
+                      hint="Singles / albums, separated by commas"
+                      wide
                     >
-                      <input id="rm-submissionLink" type="url" value={form.submissionLink} onChange={set("submissionLink")} maxLength={600} placeholder="https://drive.google.com/..." />
+                      <textarea id="rm-musicLinks" rows={2} value={form.musicLinks} onChange={set("musicLinks")} maxLength={1500} />
+                    </Field>
+                    <Field label="Past achievements" name="pastAchievements" error={errors.pastAchievements} wide>
+                      <textarea id="rm-pastAchievements" rows={2} value={form.pastAchievements} onChange={set("pastAchievements")} maxLength={1500} />
                     </Field>
                   </div>
-                )}
 
-                <Field
-                  label="Links to your original music (singles / albums)"
-                  name="musicLinks"
-                  error={errors.musicLinks}
-                  hint="Separate multiple links with commas"
-                >
-                  <textarea id="rm-musicLinks" rows={2} value={form.musicLinks} onChange={set("musicLinks")} maxLength={1500} />
-                </Field>
-                <Field label="Past achievements" name="pastAchievements" error={errors.pastAchievements}>
-                  <textarea id="rm-pastAchievements" rows={2} value={form.pastAchievements} onChange={set("pastAchievements")} maxLength={1500} />
-                </Field>
+                  {isOnline && (
+                    <>
+                      <p className="rm-step">Submission</p>
+                      <div className="rm-grid">
+                        <Field label="Song title" name="songTitle" error={errors.songTitle}>
+                          <input id="rm-songTitle" value={form.songTitle} onChange={set("songTitle")} maxLength={160} />
+                        </Field>
+                        <Field label={`Drive link (max ${ev.videoLimit} min)`} name="submissionLink" error={errors.submissionLink} required>
+                          <input id="rm-submissionLink" type="url" value={form.submissionLink} onChange={set("submissionLink")} maxLength={600} />
+                        </Field>
+                      </div>
+                    </>
+                  )}
 
-                <details className="rm-rules">
-                  <summary>Rules</summary>
-                  <ul>
-                    {ev.rules.map((r) => (
-                      <li key={r}>{r}</li>
-                    ))}
-                  </ul>
-                </details>
+                  <div className="rm-rules">
+                    <p className="rm-rules-title">Rules</p>
+                    <ul>
+                      {ev.rules.map((r) => (
+                        <li key={r}>{r}</li>
+                      ))}
+                    </ul>
+                  </div>
 
-                <label className={`rm-check ${errors.rulesAccepted ? "rm-has-error" : ""}`}>
-                  <input type="checkbox" checked={form.rulesAccepted} onChange={set("rulesAccepted")} />
-                  <span>
-                    I have read the rules{isOnline ? ` and my video is not longer than ${ev.videoLimit} minutes` : ""}.
-                  </span>
-                </label>
+                  <label className={`rm-check${errors.rulesAccepted ? " rm-has-error" : ""}`}>
+                    <input type="checkbox" checked={form.rulesAccepted} onChange={set("rulesAccepted")} />
+                    <span>
+                      I have read the rules{isOnline ? ` and my video is not longer than ${ev.videoLimit} minutes` : ""}.
+                    </span>
+                  </label>
 
-                {message && <p className="rm-message" role="alert">{message}</p>}
-
-                <button type="submit" className="rm-submit" disabled={status === "sending"}>
-                  {status === "sending" ? "Submitting…" : isOnline ? "Submit entry" : "Register"}
-                </button>
-              </>
-            )}
-          </form>
-        )}
+                  <div className="rm-actions">
+                    {message && (
+                      <p className="rm-message" role="alert">
+                        {message}
+                      </p>
+                    )}
+                    <button type="submit" className="rm-submit" disabled={status === "sending"}>
+                      {status === "sending" ? "Submitting..." : "Submit"}
+                    </button>
+                  </div>
+                </>
+              )}
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );
