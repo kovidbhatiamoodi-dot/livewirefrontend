@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import "./RegisterModal.css";
 
 // Same file is used by the Livewire and Soulstrings sites - keep them in sync.
-export const API_URL = (process.env.REACT_APP_API_URL || "https://livewirebackend.moodi.org").replace(/\/$/, "");
+// Production serves the API on the site's own domain under /api (REACT_APP_API_URL=/).
+export const API_URL = (process.env.REACT_APP_API_URL ?? "/").replace(/\/$/, "");
 
 const EVENTS = {
   livewire: {
